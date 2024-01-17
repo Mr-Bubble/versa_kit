@@ -18,6 +18,22 @@ const routes = [
         }
       },
       {
+        name: "Images",
+        path: "/images",
+        component: () => import("@/views/images/index.vue"),
+        meta: {
+          title: "图集去水印"
+        }
+      },
+      {
+        name: "Video",
+        path: "/video",
+        component: () => import("@/views/video/index.vue"),
+        meta: {
+          title: "视频去水印"
+        }
+      },
+      {
         name: "XmSports",
         path: "/xmSports",
         component: () => import("@/views/xmSports/index.vue"),
