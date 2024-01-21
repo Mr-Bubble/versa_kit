@@ -36,12 +36,20 @@
       </div>
     </van-form>
 
-    <div>
-      <van-swipe lazy-render>
-        <van-swipe-item v-for="image in imagesData" :key="image">
-          <img :src="image" />
-        </van-swipe-item>
-      </van-swipe>
+    <div v-if="imagesData && imagesData.length">
+      <van-row justify="center">
+        <van-col span="22">
+          <van-swipe lazy-render>
+            <van-swipe-item
+              v-for="(image, index) in imagesData"
+              :key="image"
+              @click="previewImage(index)"
+            >
+              <img :src="image" />
+            </van-swipe-item>
+          </van-swipe>
+        </van-col>
+      </van-row>
     </div>
 
     <div class="zh_footer_tips">
@@ -57,13 +65,18 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import { closeToast, showLoadingToast, showNotify } from "vant";
+import {
+  closeToast,
+  showImagePreview,
+  showLoadingToast,
+  showNotify
+} from "vant";
 import { getParseImages } from "@/api/tenapi";
 const dataForm = reactive({
   url: ""
 });
 
-let imagesData = ref({});
+let imagesData = ref([]);
 
 const onSubmit = () => {
   const { url } = dataForm;
@@ -86,11 +99,18 @@ const onSubmit = () => {
   getParseImages(params).then(response => {
     closeToast();
     if (response.code === 200) {
-      imagesData.value = response.data;
+      imagesData.value = response.data.images;
       showNotify({ type: "success", message: response.msg || "解析成功" });
     } else {
       showNotify({ type: "danger", message: response.msg || "解析失败" });
     }
+  });
+};
+
+const previewImage = index => {
+  showImagePreview({
+    images: imagesData.value,
+    startPosition: index
   });
 };
 </script>
