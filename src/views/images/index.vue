@@ -76,7 +76,7 @@ const dataForm = reactive({
   url: ""
 });
 
-let imagesData = ref([]);
+let imagesData = reactive([]);
 
 const onSubmit = () => {
   const { url } = dataForm;
@@ -94,12 +94,13 @@ const onSubmit = () => {
   };
   showLoadingToast({
     message: "解析中...",
-    forbidClick: true
+    forbidClick: true,
+    durationL: 0
   });
   getParseImages(params).then(response => {
     closeToast();
     if (response.code === 200) {
-      imagesData.value = response.data.images;
+      imagesData = response.data.images;
       showNotify({ type: "success", message: response.msg || "解析成功" });
     } else {
       showNotify({ type: "danger", message: response.msg || "解析失败" });
@@ -109,7 +110,7 @@ const onSubmit = () => {
 
 const previewImage = index => {
   showImagePreview({
-    images: imagesData.value,
+    images: imagesData,
     startPosition: index
   });
 };

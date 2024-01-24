@@ -51,6 +51,22 @@ const routes = [
             meta: {
               title: "光遇查身高"
             }
+          },
+          {
+            name: "SkyDailyMagic",
+            path: "daily-magic",
+            component: () => import("@/views/sky/daily-magic/index.vue"),
+            meta: {
+              title: "每日魔法"
+            }
+          },
+          {
+            name: "SkyDailyLocation",
+            path: "daily-location",
+            component: () => import("@/views/sky/daily-location/index.vue"),
+            meta: {
+              title: "每日位置"
+            }
           }
         ]
       },

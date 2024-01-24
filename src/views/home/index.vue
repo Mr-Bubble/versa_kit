@@ -18,7 +18,7 @@ const contentList = reactive([
         path: "qrcode",
         title: "二维码生成",
         color: "mauve light",
-        display: true
+        display: false
       },
       {
         icon: "tv-o",
@@ -49,16 +49,9 @@ const contentList = reactive([
       },
       {
         icon: "guide-o",
-        path: "sc-location",
+        path: "daily-location",
         title: "每日位置",
         color: "olive light",
-        display: true
-      },
-      {
-        icon: "shop-o",
-        path: "lz-location",
-        title: "大蜡季蜡位置",
-        color: "orange light",
         display: true
       },
       {
@@ -76,6 +69,9 @@ const contentList = reactive([
 <template>
   <div class="zh-body">
     <template v-for="(item, index) in contentList" :key="index">
+      <p><br /></p>
+      <van-tag plain type="primary">{{ item.title }}</van-tag>
+      <p><br /></p>
       <van-grid clickable :column-num="2">
         <template v-for="(items, sub_index) in item.sub" :key="sub_index">
           <van-grid-item

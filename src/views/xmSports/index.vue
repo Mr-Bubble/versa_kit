@@ -79,7 +79,8 @@ const onSubmit = () => {
   formData.append("step", step);
   showLoadingToast({
     message: "加载中...",
-    forbidClick: true
+    forbidClick: true,
+    durationL: 0
   });
   postXmPorts(formData, true).then(response => {
     closeToast();

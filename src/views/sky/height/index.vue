@@ -55,7 +55,8 @@ const onSubmit = () => {
   const { user_id } = dataForm;
   showLoadingToast({
     message: "加载中...",
-    forbidClick: true
+    forbidClick: true,
+    durationL: 0
   });
   getSkyHeight(user_id).then(response => {
     closeToast();
