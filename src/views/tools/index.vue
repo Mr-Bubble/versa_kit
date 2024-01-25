@@ -1,5 +1,7 @@
 <script setup name="Tools"></script>
 
 <template>
-  <div>啥都没有</div>
+  <div>
+    <van-empty image="error" description="啥都没有" />
+  </div>
 </template>

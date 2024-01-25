@@ -12,7 +12,7 @@
         />
         <van-field name="is_save" label="保存角色 ID">
           <template #input>
-            <van-switch v-model="dataForm.is_save" />
+            <van-switch v-model="dataForm.is_save" @change="saveUserID" />
           </template>
         </van-field>
       </van-cell-group>
@@ -41,9 +41,10 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { closeToast, showLoadingToast, showNotify } from "vant";
 import { getSkyHeight } from "@/api/sky";
+
 const dataForm = reactive({
   user_id: "",
   is_save: false
@@ -51,8 +52,24 @@ const dataForm = reactive({
 
 let heightData = ref({});
 
+onMounted(() => {
+  // 获取 localStorage 中的值
+  const user_id = localStorage.getItem("user_id");
+
+  if (user_id) {
+    dataForm.user_id = user_id;
+    dataForm.is_save = true;
+  }
+});
+
+const saveUserID = val => {
+  if (!val) {
+    localStorage.removeItem("user_id");
+  }
+};
+
 const onSubmit = () => {
-  const { user_id } = dataForm;
+  const { user_id, is_save } = dataForm;
   showLoadingToast({
     message: "加载中...",
     forbidClick: true,
@@ -63,6 +80,11 @@ const onSubmit = () => {
     closeToast();
     if (response.code === 200) {
       response.data.user_id = user_id;
+      if (is_save) {
+        localStorage.setItem("user_id", user_id);
+      } else {
+        localStorage.removeItem("user_id");
+      }
       showNotify({ type: "success", message: response.msg || "提交成功" });
       heightData.value = {
         ...response.data

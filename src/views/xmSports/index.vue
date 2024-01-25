@@ -28,9 +28,9 @@
           required
           :rules="[{ required: true, message: '请输入步数' }]"
         />
-        <van-field name="is_save" label="保存登录状态">
+        <van-field name="is_save" label="记住账号密码">
           <template #input>
-            <van-switch v-model="dataForm.is_save" />
+            <van-switch v-model="dataForm.is_save" @change="saveUserInfo" />
           </template>
         </van-field>
       </van-cell-group>
@@ -62,18 +62,38 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import { postXmPorts } from "@/api/jxcxin";
 import { closeToast, showLoadingToast, showNotify } from "vant";
+
 const dataForm = reactive({
   user_name: "",
   password: "",
   is_save: false
 });
 
+onMounted(() => {
+  // 获取 localStorage 中的值
+  const user_name = localStorage.getItem("user_name");
+  const password = localStorage.getItem("password");
+
+  if (user_name && password) {
+    dataForm.user_name = user_name;
+    dataForm.password = password;
+    dataForm.is_save = true;
+  }
+});
+
+const saveUserInfo = val => {
+  if (!val) {
+    localStorage.removeItem("user_name");
+    localStorage.removeItem("password");
+  }
+};
+
 const onSubmit = () => {
   const formData = new FormData();
-  const { user_name, password, step } = dataForm;
+  const { user_name, password, step, is_save } = dataForm;
   formData.append("user", user_name);
   formData.append("password", password);
   formData.append("step", step);
@@ -84,6 +104,13 @@ const onSubmit = () => {
   });
   postXmPorts(formData, true).then(response => {
     closeToast();
+    if (is_save) {
+      localStorage.setItem("user_name", user_name);
+      localStorage.setItem("password", password);
+    } else {
+      localStorage.removeItem("user_name");
+      localStorage.removeItem("password");
+    }
     if (response.code === 200) {
       showNotify({ type: "success", message: response.msg || "提交成功" });
     } else {

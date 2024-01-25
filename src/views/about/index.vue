@@ -1,7 +1,9 @@
 <script setup></script>
 
 <template>
-  <div>这个也啥都没有</div>
+  <div>
+    <van-empty image="error" description="这个也啥都没有" />
+  </div>
 </template>
 
 <style scoped></style>
