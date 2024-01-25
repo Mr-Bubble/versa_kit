@@ -8,21 +8,17 @@
     <div v-else-if="imagesData">
       <van-row justify="center">
         <van-col span="22">
-          <img :src="imagesData" @click="previewImage" />
+          <van-image :src="imagesData" @click="previewImage" />
         </van-col>
       </van-row>
     </div>
+    <van-empty v-else image="error" description="无数据" />
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import {
-  closeToast,
-  showImagePreview,
-  showLoadingToast,
-  showNotify
-} from "vant";
+import { closeToast, showImagePreview, showLoadingToast } from "vant";
 import { getDailyMagic } from "@/api/t1qq";
 
 let imagesData = ref("");
@@ -37,23 +33,18 @@ const onSubmit = () => {
     durationL: 0
   });
   getDailyMagic().then(response => {
-    if (response) {
-      // 将文件流字符串解码为二进制数据
-      const binaryData = new Blob([response], { type: "image/jpeg" });
-
+    if (response && response.type && response.type.startsWith("image/")) {
       // 创建 FileReader 对象
       const reader = new FileReader();
 
       // 监听 FileReader 的加载完成事件
       reader.onloadend = function () {
         // 将读取的数据转换为 base64 字符串
-        const base64String = reader.result;
-
-        imagesData.value = base64String;
+        imagesData.value = reader.result;
       };
 
       // 读取 Blob 数据，并将其转换为 base64 字符串
-      reader.readAsDataURL(binaryData);
+      reader.readAsDataURL(response);
     }
     closeToast();
     loading.value = false;

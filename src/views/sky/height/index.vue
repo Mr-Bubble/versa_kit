@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { closeToast, showLoadingToast, showNotify } from "vant";
 import { getSkyHeight } from "@/api/sky";
 const dataForm = reactive({
@@ -49,7 +49,7 @@ const dataForm = reactive({
   is_save: false
 });
 
-let heightData = reactive({});
+let heightData = ref({});
 
 const onSubmit = () => {
   const { user_id } = dataForm;
@@ -58,12 +58,13 @@ const onSubmit = () => {
     forbidClick: true,
     durationL: 0
   });
+
   getSkyHeight(user_id).then(response => {
     closeToast();
     if (response.code === 200) {
       response.data.user_id = user_id;
       showNotify({ type: "success", message: response.msg || "提交成功" });
-      heightData = {
+      heightData.value = {
         ...response.data
       };
     } else {

@@ -12,9 +12,10 @@
 
     <van-loading v-if="loading" vertical>加载中...</van-loading>
     <div v-else-if="tabs[active].imagesData">
+      <van-divider />
       <van-row justify="center">
         <van-col span="22">
-          <img :src="tabs[active].imagesData" @click="previewImage" />
+          <van-image :src="tabs[active].imagesData" @click="previewImage" />
         </van-col>
       </van-row>
     </div>
@@ -22,13 +23,8 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import {
-  closeToast,
-  showImagePreview,
-  showLoadingToast,
-  showNotify
-} from "vant";
+import { nextTick, reactive, ref } from "vue";
+import { closeToast, showImagePreview, showLoadingToast } from "vant";
 import { getDailyLocation } from "@/api/t1qq";
 
 let active = ref(0);
@@ -60,7 +56,9 @@ const onTapTab = () => {
 };
 
 const onSubmit = () => {
-  loading.value = true;
+  nextTick(() => {
+    loading.value = true;
+  });
   showLoadingToast({
     message: "生成中...",
     forbidClick: true,
@@ -68,30 +66,21 @@ const onSubmit = () => {
   });
   const url = tabs[active.value].api;
   getDailyLocation(url).then(response => {
-    closeToast();
-    loading.value = false;
-    if (response) {
-      // 将文件流字符串解码为二进制数据
-      const binaryData = new Blob([response], { type: "image/jpeg" });
-
+    if (response && response.type && response.type.startsWith("image/")) {
       // 创建 FileReader 对象
       const reader = new FileReader();
 
       // 监听 FileReader 的加载完成事件
       reader.onloadend = function () {
         // 将读取的数据转换为 base64 字符串
-        const base64String = reader.result;
-
-        tabs[active.value].imagesData = base64String;
+        tabs[active.value].imagesData = reader.result;
       };
 
       // 读取 Blob 数据，并将其转换为 base64 字符串
-      reader.readAsDataURL(binaryData);
-
-      showNotify({ type: "success", message: response.msg || "生成成功" });
-    } else {
-      showNotify({ type: "danger", message: response.msg || "生成失败" });
+      reader.readAsDataURL(response);
     }
+    closeToast();
+    loading.value = false;
   });
 };
 

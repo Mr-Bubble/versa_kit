@@ -69,9 +69,9 @@ const contentList = reactive([
 <template>
   <div class="zh-body">
     <template v-for="(item, index) in contentList" :key="index">
-      <p><br /></p>
-      <van-tag plain type="primary">{{ item.title }}</van-tag>
-      <p><br /></p>
+      <div class="zh_tag">
+        <van-tag plain type="primary" size="large">{{ item.title }}</van-tag>
+      </div>
       <van-grid clickable :column-num="2">
         <template v-for="(items, sub_index) in item.sub" :key="sub_index">
           <van-grid-item
@@ -85,3 +85,10 @@ const contentList = reactive([
     </template>
   </div>
 </template>
+
+<style scoped lang="less">
+.zh_tag {
+  text-align: center;
+  margin: 10px auto;
+}
+</style>

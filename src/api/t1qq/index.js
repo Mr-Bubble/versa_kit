@@ -5,7 +5,7 @@ export function getDailyMagic() {
   return http.request({
     url: "/api/sky/mf/magic?key=TN9RH687qOT6KJxOPNLqdo3SAE",
     method: "get",
-    responseType: "arraybuffer",
+    responseType: "blob",
     individuation: {
       app_api: app_api
     }
@@ -16,7 +16,7 @@ export function getDailyLocation(url) {
   return http.request({
     url: "/api/sky/sc/" + url + "?key=TN9RH687qOT6KJxOPNLqdo3SAE",
     method: "get",
-    responseType: "arraybuffer",
+    responseType: "blob",
     individuation: {
       app_api: app_api
     }
