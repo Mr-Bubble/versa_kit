@@ -63,7 +63,7 @@
 
 <script setup>
 import { onMounted, reactive } from "vue";
-import { postXmPorts } from "@/api/jxcxin";
+import { postXmPorts } from "@/api";
 import { closeToast, showLoadingToast, showNotify } from "vant";
 
 const dataForm = reactive({
@@ -92,7 +92,7 @@ const saveUserInfo = val => {
 };
 
 const onSubmit = () => {
-  const formData = new FormData();
+  const formData = new URLSearchParams();
   const { user_name, password, step, is_save } = dataForm;
   formData.append("user", user_name);
   formData.append("password", password);
@@ -102,7 +102,7 @@ const onSubmit = () => {
     forbidClick: true,
     durationL: 0
   });
-  postXmPorts(formData, true).then(response => {
+  postXmPorts(formData).then(response => {
     closeToast();
     if (is_save) {
       localStorage.setItem("user_name", user_name);
