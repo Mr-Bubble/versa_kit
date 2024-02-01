@@ -100,7 +100,8 @@ const onSubmit = () => {
   };
   showLoadingToast({
     message: "解析中...",
-    forbidClick: true
+    forbidClick: true,
+    duration: 0
   });
   getParseVideo(params).then(response => {
     closeToast();

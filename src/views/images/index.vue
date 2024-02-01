@@ -45,7 +45,7 @@
               :key="image"
               @click="previewImage(index)"
             >
-              <img :src="image" />
+              <van-image :src="image" />
             </van-swipe-item>
           </van-swipe>
         </van-col>
@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import {
   closeToast,
   showImagePreview,
@@ -95,7 +95,7 @@ const onSubmit = () => {
   showLoadingToast({
     message: "解析中...",
     forbidClick: true,
-    durationL: 0
+    duration: 0
   });
   getParseImages(params).then(response => {
     closeToast();

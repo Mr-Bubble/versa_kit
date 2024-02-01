@@ -73,7 +73,7 @@ const onSubmit = () => {
   showLoadingToast({
     message: "加载中...",
     forbidClick: true,
-    durationL: 0
+    duration: 0
   });
 
   getSkyHeight(user_id).then(response => {

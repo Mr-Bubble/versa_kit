@@ -30,7 +30,7 @@ const onSubmit = () => {
   showLoadingToast({
     message: "生成中...",
     forbidClick: true,
-    durationL: 0
+    duration: 0
   });
   getDailyMagic().then(response => {
     if (response && response.type && response.type.startsWith("image/")) {

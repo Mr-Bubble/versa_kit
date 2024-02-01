@@ -62,7 +62,7 @@ const onSubmit = () => {
   showLoadingToast({
     message: "生成中...",
     forbidClick: true,
-    durationL: 0
+    duration: 0
   });
   const url = tabs[active.value].api;
   getDailyLocation(url).then(response => {
