@@ -10,3 +10,14 @@ export function getSkyHeight(user_id) {
     }
   });
 }
+
+export function getSkyHeightsByFriend(params) {
+  return http.request({
+    url: "/sky/getHeightsByFriend",
+    method: "get",
+    params,
+    individuation: {
+      app_api: app_api
+    }
+  });
+}

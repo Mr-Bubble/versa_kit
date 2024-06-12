@@ -10,6 +10,12 @@
           required
           :rules="[{ required: true, message: '请输入角色 ID' }]"
         />
+        <van-field
+          v-model="dataForm.invite_code"
+          name="invite_code"
+          label="好友邀请码"
+          placeholder="请输入好友邀请码"
+        />
         <van-field name="is_save" label="保存角色 ID">
           <template #input>
             <van-switch v-model="dataForm.is_save" @change="saveUserID" />
@@ -35,7 +41,11 @@
     <div class="zh_footer_tips">
       <h4 class="app-font-danger">使用说明:</h4>
       <p>1、使用时请到游戏精灵中复制完整角色 ID</p>
-      <p>2、仅供学习交流，严禁用于商业用途，请于24小时内删除</p>
+      <p>
+        2、首次必须绑定好友邀请码，加上好友无需在填此邀请码，切记请勿拉黑加上的这个好友否则身高无法测，后续可直接用角色
+        ID 进行查询
+      </p>
+      <p>3、仅供学习交流，严禁用于商业用途，请于24小时内删除</p>
     </div>
   </div>
 </template>
@@ -43,10 +53,11 @@
 <script setup>
 import { onMounted, reactive, ref } from "vue";
 import { closeToast, showLoadingToast, showNotify } from "vant";
-import { getSkyHeight } from "@/api/sky";
+import { getSkyHeightsByFriend } from "@/api/sky";
 
 const dataForm = reactive({
   user_id: "",
+  invite_code: "",
   is_save: false
 });
 
@@ -69,14 +80,22 @@ const saveUserID = val => {
 };
 
 const onSubmit = () => {
-  const { user_id, is_save } = dataForm;
+  const { user_id, is_save, invite_code: inviteCode } = dataForm;
   showLoadingToast({
     message: "加载中...",
     forbidClick: true,
     duration: 0
   });
 
-  getSkyHeight(user_id).then(response => {
+  const psData = {
+    user: user_id
+  };
+
+  if (inviteCode) {
+    psData.inviteCode = inviteCode;
+  }
+
+  getSkyHeightsByFriend(psData).then(response => {
     closeToast();
     if (response.code === 200) {
       response.data.user_id = user_id;
