@@ -1,1 +1,0 @@
-import{_ as o,o as r,c as t,a as c}from"./index-fc2dbbe8.js";import{E as n}from"./index-40f1512b.js";import"./use-id-365cc908.js";const a={};function s(_,m){const e=n;return r(),t("div",null,[c(e,{image:"error",description:"这个也啥都没有"})])}const f=o(a,[["render",s]]);export{f as default};
