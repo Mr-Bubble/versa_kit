@@ -1,5 +1,8 @@
 <template>
-  <div class="zh-body">
+  <div v-if="show">
+    <van-empty image="error" description="跑路了, 跑路了" />
+  </div>
+  <div class="zh-body" v-else>
     <van-form @submit="onSubmit">
       <van-cell-group inset>
         <van-field
@@ -62,6 +65,7 @@ const dataForm = reactive({
 });
 
 let heightData = ref({});
+const show = ref(true);
 
 onMounted(() => {
   // 获取 localStorage 中的值
