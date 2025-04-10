@@ -1,0 +1,1 @@
+import{E as r}from"./index-ZIejJ9yC.js";import{h as t,o as e}from"./index-BSIoVOQp.js";import"./index-DxWjbdzg.js";import"./use-id-DTfwbIp6.js";const n={__name:"index",setup(o){return(p,a)=>(e(),t(r,{image:"error",description:"这个也啥都没有","sub-description":"敬请期待..."}))}};export{n as default};
