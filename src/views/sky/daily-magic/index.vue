@@ -1,18 +1,28 @@
 <template>
-  <div class="zh-body">
-    <div class="zh_footer_tips">
+  <div class="min-h-[calc(100vh-99px)] bg-gray-50 dark:bg-gray-900 py-5 px-4">
+    <div
+      class="mb-4 rounded-lg bg-white dark:bg-gray-800 p-3 text-sm text-gray-600 dark:text-gray-300 shadow-sm"
+    >
       <p>⭐️ 点击图片即可预览,长按图片即可保存</p>
     </div>
 
-    <van-loading v-if="loading" vertical>加载中...</van-loading>
-    <div v-else-if="imagesData">
-      <van-row justify="center">
-        <van-col span="22">
-          <van-image :src="imagesData" @click="previewImage" />
-        </van-col>
-      </van-row>
+    <div v-if="loading" class="flex h-40 items-center justify-center">
+      <van-loading vertical>加载中...</van-loading>
     </div>
-    <van-empty v-else image="error" description="无数据" />
+
+    <div v-else-if="imagesData" class="flex justify-center">
+      <div class="w-11/12">
+        <van-image
+          :src="imagesData"
+          @click="previewImage"
+          class="rounded-lg shadow-md transition-transform hover:scale-[1.02]"
+        />
+      </div>
+    </div>
+
+    <div v-else class="flex h-40 items-center justify-center">
+      <van-empty image="error" description="无数据" />
+    </div>
   </div>
 </template>
 
@@ -58,32 +68,4 @@ const previewImage = () => {
 };
 </script>
 
-<style scoped lang="less">
-.zh-body {
-  background-color: var(--van-background);
-  box-sizing: border-box;
-  min-height: calc(100vh - 99px);
-  padding-bottom: 20px;
-  padding-top: 20px;
-
-  .zh-button {
-    margin: 15px;
-    text-align: center;
-    .van-button:not(:last-child) {
-      margin-right: var(--van-padding-md);
-    }
-  }
-}
-
-.zh_footer_tips {
-  h4 {
-    margin: 0;
-  }
-  text-align: left;
-  background: var(--van-background-2);
-  margin: 14px;
-  padding: 10px;
-  font-size: 12px;
-  border-radius: 8px;
-}
-</style>
+<style scoped></style>

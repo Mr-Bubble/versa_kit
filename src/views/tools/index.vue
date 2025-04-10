@@ -1,9 +1,13 @@
-<script setup></script>
+<script setup>
+import EmptyState from "@/components/EmptyState/index.vue";
+</script>
 
 <template>
-  <div>
-    <van-empty image="error" description="这个啥都没有" />
-  </div>
+  <EmptyState
+    image="error"
+    description="这个啥都没有"
+    sub-description="敬请期待更多实用工具..."
+  />
 </template>
 
 <style scoped></style>
