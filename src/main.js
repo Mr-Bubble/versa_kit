@@ -1,11 +1,10 @@
 import { createApp } from "vue";
 import { store } from "./store";
+import "./styles/tailwind.css";
 // normalize.css
 import "normalize.css/normalize.css";
 // 全局样式
 import "./styles/index.less";
-// tailwindcss
-import "./styles/tailwind.css";
 // svg icon
 import "virtual:svg-icons-register";
 

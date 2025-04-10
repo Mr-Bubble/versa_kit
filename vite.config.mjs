@@ -10,6 +10,7 @@ import path from "path";
 import mockDevServerPlugin from "vite-plugin-mock-dev-server";
 import viteCompression from "vite-plugin-compression";
 import { createHtmlPlugin } from "vite-plugin-html";
+import tailwindcss from "@tailwindcss/vite";
 
 // 当前工作目录路径
 const root = process.cwd();
@@ -45,7 +46,8 @@ export default defineConfig(({ mode }) => {
             ENABLE_ERUDA: env.VITE_ENABLE_ERUDA || "false"
           }
         }
-      })
+      }),
+      tailwindcss()
     ],
     resolve: {
       alias: {
